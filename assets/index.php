@@ -103,7 +103,7 @@ if ($CEQCount>0){
         
         $sessionName = Config::get('session/session_name');
         Session::put($sessionName, $theNewId);
-        //Redirect::to($whereNext);
+        Redirect::to($whereNext);
         }
     }
     
