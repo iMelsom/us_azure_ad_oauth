@@ -1,5 +1,9 @@
 # Azure AD (Entra ID) oAuth plugin for UserSpice
-Plugin is based on PHPAzureADoAuth (https://github.com/CoasterKaty/PHPAzureADoAuth) by @CoasterKaty
+Plugin is based on the following projects: 
+
+PHPAzureADoAuth (https://github.com/CoasterKaty/PHPAzureADoAuth) by @CoasterKaty
+UserSpice demo plugin by Dan Hoover
+SignInWithAppleForUserSpice plugin (https://github.com/yaroshhh/SignInWithAppleForUserSpice) by @yaroshhh
 Requires the UserSpice framework (https://userspice.com/)
 
 Installation:
