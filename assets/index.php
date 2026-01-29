@@ -7,8 +7,8 @@
  * https://katytech.blog/
  * https://twitter.com/coaster_katy
  *
-*/
- 
+ */
+
 
 
 // Load the auth module, this will redirect us to login if we aren't already logged in.
@@ -34,7 +34,7 @@ if ($CEQCount>0){
     $newLoginCount = $checkExisting->logins+1;
     $newLastLogin = date("Y-m-d H:i:s");
     
-    $fields=array('oauth_uid'=>$aao_id, 'oauth_provider'=>'EntraID', 'logins'=>$newLoginCount, 'last_login'=>$newLastLogin);
+    $fields=array('oauth_uid'=>$aao_id, 'oauth_provider'=>'EntraID', 'logins'=>$newLoginCount, 'last_login'=>$newLastLogin, 'aao_active' => 1 );
     
     $db->update('users',$checkExisting->id,$fields);
     $sessionName = Config::get('session/session_name');
@@ -104,10 +104,10 @@ if ($CEQCount>0){
         $sessionName = Config::get('session/session_name');
         Session::put($sessionName, $theNewId);
         Redirect::to($whereNext);
-        }
     }
-    
-    
+}
+
+
 
 
 ?>

@@ -6,8 +6,8 @@ class aaoUSer extends User
     public function loginEmail($email = null, $aaoUser = null)
     {
         $user = $this->find($email, 1);
-            
-            //sjekk om brukeren er registert i US
+        
+        //sjekk om brukeren er registert i US
         if(!$user){
             $fields = [
                 'username' => $aaoUser->mail,
@@ -27,12 +27,13 @@ class aaoUSer extends User
             
             $theNewId = $user->create($fields);
         }
-        if($user->aao_id == NULL) $this->_db->query('UPDATE users SET  	aao_id = ?,  aao_id  = logins + 1 WHERE id = ?', [$date, $this->data()->id]);
+        
+        if($user->data()->aao_id == NULL) $this->_db->query('UPDATE users SET aao_id = ? WHERE id = ?', [$aaoUser->id]);
         
         Session::put($this->_sessionName, $this->data()->id);
-
+        
         $date = date('Y-m-d H:i:s');
-        $this->_db->query('UPDATE users SET last_login = ?, logins = logins + 1 WHERE id = ?', [$date, $this->data()->id]);
+        $this->_db->query('UPDATE users SET last_login = ?, logins = logins + 1, aao_active = 1 WHERE id = ?', [$date, $user->data()->id]);
         $_SESSION['last_confirm'] = date('Y-m-d H:i:s');
         $ip = ipCheck();
         $this->_db->insert('logs', ['logdate' => $date, 'user_id' => $this->data()->id, 'logtype' => 'login', 'lognote' => 'User logged in.', 'ip' => $ip]);
