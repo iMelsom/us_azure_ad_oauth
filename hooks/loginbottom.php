@@ -1,6 +1,6 @@
 <?php
-if(count(get_included_files()) ==1) die(); //Direct Access Not Permitted 
 error_log("blipp");
+if(count(get_included_files()) ==1) die(); //Direct Access Not Permitted 
 require_once '../users/init.php';
 global $settings, $user, $db, $authorize_url, $us_url_root, $abs_us_root;
 if($settings->aao_login==1 && !$user->isLoggedIn()){
