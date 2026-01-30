@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ?>
 <?php
 //APPLE::getSessionKey(true); // force new sessio key
-$aao_auth = "/usersc/plugins/azure_ad_oauth/assets/" ?>
+$aao_auth = "/usersc/plugins/us_azure_ad_oauth/assets/" ?>
   <a href="<?=$aao_auth	?>">
-    <img class='img-responsive social-button' src="<?=$us_url_root?>usersc/plugins/azure_ad_oauth/logo.png" width="25" alt=""/>
+    <img class='img-responsive social-button' src="<?=$us_url_root?>usersc/plugins/us_azure_ad_oauth/logo.png" width="25" alt=""/>
   </a>
 
