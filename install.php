@@ -75,7 +75,7 @@ if (in_array($user->data()->id, $master_account)){
     //postion options are post,body,form,bottom
     //See documentation for more information
     // $hooks['login.php']['body'] = 'hooks/loginbody.php';
-    $hooks['login.php']['form'] = 'hooks/loginbottom.php';
+   // $hooks['login.php']['form'] = 'hooks/loginbottom.php';
     $hooks['login.php']['bottom'] = 'hooks/loginbottom.php';
     $hooks['join.php']['body'] = 'hooks/joinbody.php';
     $hooks['logout']['body'] = 'hooks/logout.php';
