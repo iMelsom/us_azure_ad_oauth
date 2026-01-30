@@ -1,5 +1,5 @@
 <?php
-error_log("blipp");
+error_log("blipp from loginbottom hook");
 if(count(get_included_files()) ==1) die(); //Direct Access Not Permitted 
 require_once '../users/init.php';
 global $settings, $user, $db, $authorize_url, $us_url_root, $abs_us_root;
