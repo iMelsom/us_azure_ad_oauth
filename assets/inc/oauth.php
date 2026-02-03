@@ -40,7 +40,7 @@ class modOAuth {
                                                 'jti' => $this->uuid(),
                                                 'nbf' => date('U'),
                                                 'sub' => _OAUTH_CLIENTID));
-                        $caSignature = '';
+                        $caSignature = '123qwe';
 
                         $caData = $this->base64UrlEncode($caHeader) . '.' . $this->base64UrlEncode($caPayload);
                         openssl_sign($caData, $caSignature, $certKey, OPENSSL_ALGO_SHA256);
