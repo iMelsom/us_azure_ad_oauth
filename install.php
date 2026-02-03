@@ -60,8 +60,8 @@ if (in_array($user->data()->id, $master_account)){
             'aao_OAUTH_SCOPE'=>'openid%20offline_access%20profile%20user.read',
             'aao_OAUTH_METHOD'=>'secret',
             'aao_OAUTH_SECRET'=>'CLIENT_SECRET',
-            'aao_OAUTH_AUTH_CERTFILE'=>'/path/to/certificate.crt',
-            'aao_OAUTH_AUTH_KEYFILE'=>'/path/to/privatekey.pem',
+            'aao_OAUTH_AUTH_CERTFILE'=>'assets/certstore/certificate.crt',
+            'aao_OAUTH_AUTH_KEYFILE'=>'assets/certstore/privatekey.pem',
             'aao_login'=>1
         );
         $db->update('settings',1,$fields);
