@@ -8,7 +8,7 @@
  * https://twitter.com/coaster_katy
  *
  */
-
+error_log (getcwd());
 class modOAuth {
 
 	function errorMessage($message) {
