@@ -35,7 +35,7 @@ if (in_array($user->data()->id, $master_account)){
     $db->query("ALTER TABLE settings ADD COLUMN aao_OAUTH_AUTH_KEYFILE  varchar(255)");
     $db->query("ALTER TABLE settings ADD COLUMN aao_URL  varchar(255)");
     $db->query("ALTER TABLE settings ADD COLUMN aao_login  int");
-    $db->query("CREATE TABLE `us_aao_matches` ( `id` INT NOT NULL AUTO_INCREMENT , `permission` TEXT NULL , `aao` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+    $db->query("CREATE TABLE `us_aao_matches` ( `id` INT NOT NULL, `permission` TEXT NULL , `aao` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
     $db->query("CREATE TABLE `aao_tblAuthSessions` (  `intAuthID` int(11) NOT NULL AUTO_INCREMENT,
                                                   `txtSessionKey` varchar(255) DEFAULT NULL,
                                                   `dtExpires` datetime DEFAULT NULL,

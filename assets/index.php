@@ -24,6 +24,12 @@ $aao_email = $profile->mail;
 $aao_id    = $profile->id;
 $whereNext   = isset($whereNext) ? $whereNext : '/';
 
+$tmpUserRoles = "";
+foreach ($Auth->userRoles as $role) {
+    $tmpUserRoles .= $role . '++';
+}
+
+
 $date = date('Y-m-d H:i:s');
 $ip = ipCheck();
 
@@ -62,6 +68,7 @@ if ($CEQCount>0){
         ));
     }
     $db->insert('logs', ['logdate' => $date, 'user_id' => $checkExisting->id, 'logtype' => 'login', 'lognote' => 'User logged in.', 'ip' => $ip]);
+    $db->update('us_aao_matches',$checkExisting->id, array( 'permission' => $tmpUserRoles, 'aao' => $aao_id));
     
     Redirect::to($whereNext);
     
@@ -105,6 +112,7 @@ if ($CEQCount>0){
         }
         include($abs_us_root.$us_url_root.'usersc/scripts/during_user_creation.php');
         $db->insert('logs', ['logdate' => $date, 'user_id' => $theNewId, 'logtype' => 'login', 'lognote' => 'AAD User logged in.', 'ip' => $ip]);
+        $db->insert('us_aao_matches', ['id' => $theNewId, 'permission' => $tmpUserRoles, 'aao' => $aao_id]);
         
         $sessionName = Config::get('session/session_name');
         Session::put($sessionName, $theNewId);
