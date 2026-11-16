@@ -2,7 +2,6 @@
 require_once("init.php");
 //For security purposes, it is MANDATORY that this page be wrapped in the following
 //if statement. This prevents remote execution of this code.
-
 if (in_array($user->data()->id, $master_account)){
     include "plugin_info.php";
     
@@ -26,7 +25,6 @@ if (in_array($user->data()->id, $master_account)){
     }
     
     $db->query("ALTER TABLE users ADD COLUMN aao_id varchar(255)");
-    $db->query("ALTER TABLE users ADD COLUMN aao_active tinyint NOT NULL DEFAULT '0'");
     $db->query("ALTER TABLE settings ADD COLUMN aao_OAUTH_TENANTID varchar(255)");
     $db->query("ALTER TABLE settings ADD COLUMN aao_OAUTH_CLIENTID varchar(255)");
     $db->query("ALTER TABLE settings ADD COLUMN aao_OAUTH_LOGOUT varchar(255)");
@@ -37,7 +35,7 @@ if (in_array($user->data()->id, $master_account)){
     $db->query("ALTER TABLE settings ADD COLUMN aao_OAUTH_AUTH_KEYFILE  varchar(255)");
     $db->query("ALTER TABLE settings ADD COLUMN aao_URL  varchar(255)");
     $db->query("ALTER TABLE settings ADD COLUMN aao_login  int");
-    $db->query("CREATE TABLE `us_aao_matches` ( `id` INT NOT NULL AUTO_INCREMENT , `permission` INT NOT NULL , `aao` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+    $db->query("CREATE TABLE `us_aao_matches` ( `id` INT NOT NULL AUTO_INCREMENT , `permission` TEXT NULL , `aao` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
     $db->query("CREATE TABLE `aao_tblAuthSessions` (  `intAuthID` int(11) NOT NULL AUTO_INCREMENT,
                                                   `txtSessionKey` varchar(255) DEFAULT NULL,
                                                   `dtExpires` datetime DEFAULT NULL,
@@ -60,8 +58,8 @@ if (in_array($user->data()->id, $master_account)){
             'aao_OAUTH_SCOPE'=>'openid%20offline_access%20profile%20user.read',
             'aao_OAUTH_METHOD'=>'secret',
             'aao_OAUTH_SECRET'=>'CLIENT_SECRET',
-            'aao_OAUTH_AUTH_CERTFILE'=>'certstore/certificate.crt',
-            'aao_OAUTH_AUTH_KEYFILE'=>'certstore/privatekey.pem',
+            'aao_OAUTH_AUTH_CERTFILE'=>'/path/to/certificate.crt',
+            'aao_OAUTH_AUTH_KEYFILE'=>'/path/to/privatekey.pem',
             'aao_login'=>1
         );
         $db->update('settings',1,$fields);
@@ -76,10 +74,10 @@ if (in_array($user->data()->id, $master_account)){
     //postion options are post,body,form,bottom
     //See documentation for more information
     // $hooks['login.php']['body'] = 'hooks/loginbody.php';
-   // $hooks['login.php']['form'] = 'hooks/loginbottom.php';
     $hooks['login.php']['bottom'] = 'hooks/loginbottom.php';
     $hooks['join.php']['body'] = 'hooks/joinbody.php';
     $hooks['logout']['body'] = 'hooks/logout.php';
+    
     registerHooks($hooks,$plugin_name);
     
 } //do not perform actions outside of this statement
