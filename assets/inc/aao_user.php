@@ -28,7 +28,7 @@ class aaoUSer extends User
             $theNewId = $user->create($fields);
         }
         
-        if($user->data()->aao_id == NULL) $this->_db->query('UPDATE users SET aao_id = ? WHERE id = ?', [$aaoUser->id]);
+        if($user->data()->aao_id == NULL) $this->_db->query('UPDATE users SET aao_id = ? WHERE id = ?', [$aaoUser->id,$user->data()->id]);
         
         Session::put($this->_sessionName, $this->data()->id);
         

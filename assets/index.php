@@ -24,6 +24,9 @@ $aao_email = $profile->mail;
 $aao_id    = $profile->id;
 $whereNext   = isset($whereNext) ? $whereNext : '/';
 
+$date = date('Y-m-d H:i:s');
+$ip = ipCheck();
+
 $checkExistingQ = $db->query("SELECT * FROM users WHERE email = ?",array ($aao_email));
 
 $CEQCount = $checkExistingQ->count();
@@ -34,7 +37,7 @@ if ($CEQCount>0){
     $newLoginCount = $checkExisting->logins+1;
     $newLastLogin = date("Y-m-d H:i:s");
     
-    $fields=array('oauth_uid'=>$aao_id, 'oauth_provider'=>'EntraID', 'logins'=>$newLoginCount, 'last_login'=>$newLastLogin, 'aao_active' => 1 );
+    $fields=array('oauth_uid'=>$aao_id, 'oauth_provider'=>'EntraID', 'logins'=>$newLoginCount, 'last_login'=>$newLastLogin);
     
     $db->update('users',$checkExisting->id,$fields);
     $sessionName = Config::get('session/session_name');
@@ -58,6 +61,7 @@ if ($CEQCount>0){
             'ip' => $ip,
         ));
     }
+    $db->insert('logs', ['logdate' => $date, 'user_id' => $checkExisting->id, 'logtype' => 'login', 'lognote' => 'User logged in.', 'ip' => $ip]);
     
     Redirect::to($whereNext);
     
@@ -100,11 +104,13 @@ if ($CEQCount>0){
             ));
         }
         include($abs_us_root.$us_url_root.'usersc/scripts/during_user_creation.php');
+        $db->insert('logs', ['logdate' => $date, 'user_id' => $theNewId, 'logtype' => 'login', 'lognote' => 'AAD User logged in.', 'ip' => $ip]);
         
         $sessionName = Config::get('session/session_name');
         Session::put($sessionName, $theNewId);
         Redirect::to($whereNext);
     }
+    
 }
 
 

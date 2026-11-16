@@ -10,7 +10,7 @@
  */
 require_once 'inc/mysql.php';
 require_once 'inc/oauth.php';
-error_log(print_r($_REQUEST,true),false);
+//error_log(print_r($_REQUEST,true),false);
 
 
 session_start();
