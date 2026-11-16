@@ -20,8 +20,12 @@ $Graph = new modGraph();
 $photo = $Graph->getPhoto();
 $profile = $Graph->getProfile();
 
-$aao_email = $profile->mail;
 $aao_id    = $profile->id;
+$aao_email = $profile->mail;
+
+$GraphOtherEmail = $Graph->getOtherEmail($profile->id);
+$OtherEmail =  $GraphOtherEmail->otherMails;
+
 $whereNext   = isset($whereNext) ? $whereNext : '/';
 
 $tmpUserRoles = "";
@@ -33,9 +37,13 @@ foreach ($Auth->userRoles as $role) {
 $date = date('Y-m-d H:i:s');
 $ip = ipCheck();
 
-$checkExistingQ = $db->query("SELECT * FROM users WHERE email = ?",array ($aao_email));
+$checkExistingQ = $db->query("SELECT * FROM users WHERE email = %?% OR email = %?%",array ($aao_email,$OtherEmail));
 
 $CEQCount = $checkExistingQ->count();
+if ($CEQCount == 0){
+    $db->query("SELECT * FROM users WHERE fname = %?% AND lname = %?%",array ($profile->givenName,$profile->surname));
+    $CEQCount = $checkExistingQ->count();
+}
 
 //Existing UserSpice User Found
 if ($CEQCount>0){
