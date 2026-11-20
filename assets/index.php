@@ -29,7 +29,11 @@ $OtherEmail =  $GraphOtherEmail->otherMails;
 $whereNext   = isset($whereNext) ? $whereNext : '/';
 
 $tmpUserRoles = "";
+
+//error_log(print_r($Auth,true),false);
+
 foreach ($Auth->userRoles as $role) {
+    //   error_log($role);
     $tmpUserRoles .= $role . '++';
 }
 
@@ -37,11 +41,18 @@ foreach ($Auth->userRoles as $role) {
 $date = date('Y-m-d H:i:s');
 $ip = ipCheck();
 
-$checkExistingQ = $db->query("SELECT * FROM users WHERE email = %?% OR email = %?%",array ($aao_email,$OtherEmail));
-
+//try with AAO-email or OtherAAO-email first
+//error_log("SELECT * FROM users WHERE email LIKE '%".$aao_email."%' OR email LIKE '%".$aao_email."%'");
+$checkExistingQ = $db->query("SELECT * FROM users WHERE email LIKE '%".$aao_email ."%' OR email LIKE '%".$aao_email."%'");
+//error_log(print_r($checkExistingQ,true),false);
 $CEQCount = $checkExistingQ->count();
+
+//if no users found, try checking against firstname-lastname
 if ($CEQCount == 0){
-    $db->query("SELECT * FROM users WHERE fname = %?% AND lname = %?%",array ($profile->givenName,$profile->surname));
+    $tempFname = explode(" ", $profile->givenName);
+    $tempLname = explode(" ", $profile->surname);
+    
+    $db->query("SELECT * FROM users WHERE fname = '%".$tempFname[0]."%' AND lname = '%".$tempLname[0]."%'");
     $CEQCount = $checkExistingQ->count();
 }
 
@@ -96,7 +107,20 @@ if ($CEQCount>0){
         } else {
             $username=$aao_email;
         }
-        $fields=array('email'=>$aao_email,'username'=>$username,'fname'=>$aao_fname,'lname'=>$aao_lname,'permissions'=>1,'logins'=>1,'join_date'=>$date,'last_login'=>$date,'email_verified'=>1,'password'=>NULL,'oauth_uid'=>$aao_id, 'oauth_provider'=>'EntraID');
+        $fields=array(
+            'email'=>$aao_email,
+            'username'=>$username,
+            'fname'=>$aao_fname,
+            'lname'=>$aao_lname,
+            'permissions'=>1,
+            'logins'=>1,
+            'join_date'=>$date,
+            'last_login'=>$date,
+            'email_verified'=>1,
+            'password'=>NULL,
+            'oauth_uid'=>$aao_id,
+            'oauth_provider'=>'EntraID'
+        );
         
         $db->insert('users',$fields);
         $theNewId = $db->lastId();
